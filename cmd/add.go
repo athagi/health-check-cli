@@ -15,7 +15,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -30,7 +29,7 @@ var addCmd = &cobra.Command{
 	Short: "add target endpoint",
 	Long:  `add target endpoint. endpoint is recorded on ./.config/endpoints`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+		// fmt.Println("add called")
 		add(args)
 	},
 }

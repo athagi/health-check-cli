@@ -29,7 +29,7 @@ var listCmd = &cobra.Command{
 	Short: "list recorded endpoints",
 	Long:  `list recorded endpoints`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		// fmt.Println("list called")
 		listTargets()
 	},
 }

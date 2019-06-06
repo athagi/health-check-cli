@@ -57,7 +57,7 @@ func exec() {
 	for _, url := range list {
 		resp, err := http.Get(url)
 
-		statusCode := 0
+		statusCode := http.StatusNotFound
 
 		if err != nil {
 			log.Println(err)

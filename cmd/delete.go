@@ -17,7 +17,6 @@ package cmd
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 
@@ -32,7 +31,7 @@ var deleteCmd = &cobra.Command{
 	Short: "delete endpoint from recorded list",
 	Long:  `delete endpoint from recorded list which you added by 'add' subcommand`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		// fmt.Println("delete called")
 		delete(args)
 	},
 }
