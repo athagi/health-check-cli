@@ -16,7 +16,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -79,7 +81,13 @@ func initConfig() {
 		viper.AddConfigPath(home)
 		viper.SetConfigName(".health-check-cli")
 
-		configDir := "./.config"
+		ex, err := os.Executable()
+		if err != nil {
+			log.Fatal(err)
+		}
+		exPath := filepath.Dir(ex)
+
+		configDir := exPath + "/.config"
 		recordedFile := configDir + "/endpoints"
 		viper.Set("configDir", configDir)
 		viper.Set("recordFileName", recordedFile)
