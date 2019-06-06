@@ -9,3 +9,6 @@ build:
 
 win-build:
 	GOOS=windows GOARCH=amd64 go build -o dest/health-check-cli.exe main.go
+
+mac-build:
+	GOOS=darwin GOARCH=amd64 go build -o dest/health-check-cli main.go

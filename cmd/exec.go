@@ -15,14 +15,8 @@
 package cmd
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
-	"net/http"
-	"os"
-
+	"github.com/athagi/health-check-cli/exec"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // execCmd represents the exec command
@@ -32,52 +26,8 @@ var execCmd = &cobra.Command{
 	Long:  `check health of endpoints`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// fmt.Println("exec called")
-		exec()
+		exec.Exec()
 	},
-}
-
-type Result struct {
-	Responses []Response `json:"responses"`
-}
-
-// Response is return value to stdout
-type Response struct {
-	URL        string `json:"url"`
-	StatusCode int    `json:"statusCode"`
-}
-
-func exec() {
-
-	list, err := readLines(viper.GetString("recordFileName"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	datas := make([]Response, 0)
-	for _, url := range list {
-		resp, err := http.Get(url)
-
-		statusCode := http.StatusNotFound
-
-		if err != nil {
-			log.Println(err)
-		} else {
-			statusCode = resp.StatusCode
-			defer resp.Body.Close()
-		}
-		var data = Response{}
-		data.StatusCode = statusCode
-		data.URL = url
-		datas = append(datas, data)
-	}
-
-	var res = Result{}
-	res.Responses = datas
-	outputJSON, err := json.Marshal(&res)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Fprintln(os.Stdout, string(outputJSON))
 }
 
 func init() {
