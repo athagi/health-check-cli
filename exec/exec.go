@@ -25,19 +25,12 @@ type Response struct {
 
 func Exec() {
 
-	list, err := readLines(viper.GetString("recordFileName"))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	datas := make([]Response, 0)
-	for _, url := range list {
+	crawler := func(url string, ch chan Response) {
 		timeout := time.Duration(5 * time.Second)
 		client := http.Client{
 			Timeout: timeout,
 		}
 		resp, err := client.Get(url)
-		// resp, err := http.Get(url)
 
 		statusCode := http.StatusNotFound
 
@@ -50,9 +43,31 @@ func Exec() {
 		var data = Response{}
 		data.StatusCode = statusCode
 		data.URL = url
-		datas = append(datas, data)
+		ch <- data
 	}
 
+	ch := make(chan Response)
+	list, err := readLines(viper.GetString("recordFileName"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, url := range list {
+		go crawler(url, ch)
+	}
+	store := make(map[string]bool)
+
+	datas := make([]Response, 0)
+	for {
+		if len(store) == len(list) {
+			break
+		}
+		x := <-ch
+		if _, ok := store[x.URL]; ok || x.URL == "" {
+			continue
+		}
+		store[x.URL] = true
+		datas = append(datas, x)
+	}
 	var res = Result{}
 	res.Responses = datas
 	outputJSON, err := json.Marshal(&res)
