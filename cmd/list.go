@@ -15,12 +15,8 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
-	"os"
-
+	"github.com/athagi/health-check-cli/list"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // listCmd represents the list command
@@ -30,21 +26,8 @@ var listCmd = &cobra.Command{
 	Long:  `list recorded endpoints`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// fmt.Println("list called")
-		listTargets()
+		list.ListTargets()
 	},
-}
-
-func listTargets() {
-	filePath := viper.GetString("recordFileName")
-
-	lines, err := readLines(filePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, l := range lines {
-		fmt.Fprintln(os.Stdout, l)
-	}
 }
 
 func init() {
