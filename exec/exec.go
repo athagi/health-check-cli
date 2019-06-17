@@ -23,53 +23,44 @@ type Response struct {
 	StatusCode int    `json:"statusCode"`
 }
 
-func Exec() {
+func crawler(url string, ch chan Response) {
+	timeout := time.Duration(5 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+	resp, err := client.Get(url)
 
-	crawler := func(url string, ch chan Response) {
-		timeout := time.Duration(5 * time.Second)
-		client := http.Client{
-			Timeout: timeout,
-		}
-		resp, err := client.Get(url)
+	statusCode := http.StatusNotFound
 
-		statusCode := http.StatusNotFound
-
-		if err != nil {
-			log.Println(err)
-		} else {
-			statusCode = resp.StatusCode
-			defer resp.Body.Close()
-		}
-		var data = Response{}
-		data.StatusCode = statusCode
-		data.URL = url
-		ch <- data
+	if err != nil {
+		log.Println(err)
+	} else {
+		statusCode = resp.StatusCode
+		defer resp.Body.Close()
 	}
 
+	var data = Response{}
+	data.StatusCode = statusCode
+	data.URL = url
+	ch <- data
+}
+
+func Exec() {
 	ch := make(chan Response)
 	list, err := readLines(viper.GetString("recordFileName"))
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, url := range list {
-		go crawler(url, ch)
+	for _, u := range list {
+		go crawler(u, ch)
 	}
-	store := make(map[string]bool)
 
-	datas := make([]Response, 0)
-	for {
-		if len(store) == len(list) {
-			break
-		}
-		x := <-ch
-		if _, ok := store[x.URL]; ok || x.URL == "" {
-			continue
-		}
-		store[x.URL] = true
-		datas = append(datas, x)
+	data := make([]Response, 0)
+	for range list {
+		data = append(data, <-ch)
 	}
 	var res = Result{}
-	res.Responses = datas
+	res.Responses = data
 	outputJSON, err := json.Marshal(&res)
 	if err != nil {
 		log.Fatal(err)
