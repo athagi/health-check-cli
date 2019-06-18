@@ -13,13 +13,18 @@ jobs:
       - store_artifacts:
           path: dest/
   upload:
-    requires:
-      - build
     docker:
       - image: circleci/python
     steps:
       - run: ls
       - run: ls -al dest/
-
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - upload:
+          requires:
+            - build
 
 
