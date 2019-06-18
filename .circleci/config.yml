@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.0
 jobs:
   build:
     working_directory: /go/src/github.com/athagi/health-check-cli/
@@ -10,3 +12,6 @@ jobs:
       - checkout # check out the code in the project directory
       - run: make build
       - run: ls -al dest/
+      - aws-s3/copy
+        from: dest/*
+        to: 's3://health-check-cli'
