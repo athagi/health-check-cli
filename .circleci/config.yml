@@ -10,8 +10,8 @@ jobs:
       - checkout # check out the code in the project directory
       - run: make build
       - run: ls -al dest/
-      - store_artifacts:
-        path: /go/src/github.com/athagi/health-check-cli/dest
+      # - store_artifacts:
+      #   path: /go/src/github.com/athagi/health-check-cli/dest
       # - aws-s3/copy:
       #   from: dest/
       #   to: 's3://health-check-cli'
