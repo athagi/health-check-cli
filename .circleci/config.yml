@@ -14,9 +14,9 @@ jobs:
       - run: ls -al dest/
       - store_artifacts:
           path: dest/
-      # - aws-s3/copy:
-      #   from: dest/
-      #   to: 's3://health-check-cli'
+      - aws-s3/copy:
+        from: dest/
+        to: 's3://health-check-cli'
 #   upload:
 #     working_directory: /go/src/github.com/athagi/health-check-cli/
 #     docker:
