@@ -1,10 +1,11 @@
 version: 2
 jobs:
   build:
-    working_directory: /go/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/
+    working_directory: /go/src/github.com/athagi/health-check-cli/
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: circleci/golang:1.12.6 # the primary container, where your job's commands are run
     steps:
+
       - checkout # check out the code in the project directory
       - run: echo "hello $CIRCLE_PROJECT_USERNAME" # run the `echo` command
       - run: ls -al
