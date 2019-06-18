@@ -12,4 +12,6 @@ jobs:
       - run: ls -al
       - run: pwd
       - run: make build
+      - run: make win-build
+      - run: make mac-build
       - run: ls -al dest/
