@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    working_directory: /go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: circleci/golang:1.12.6 # the primary container, where your job's commands are run
     steps:
