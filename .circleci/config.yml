@@ -12,4 +12,4 @@ jobs:
       - run: ls -al dest/
       - store_artifacts:
           path: dest/
-  upload:
+  # upload:
