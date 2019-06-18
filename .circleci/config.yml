@@ -22,3 +22,23 @@ jobs:
       - aws-s3/copy:
           from: dest/*
           to: 's3://health-check-cli'
+
+workflows:
+  version: 2.1
+  build_and_upload :
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - ci
+
+      - upload:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - ci
