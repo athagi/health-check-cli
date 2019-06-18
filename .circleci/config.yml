@@ -1,9 +1,7 @@
 version: 2.1
-orbs:
-  aws-s3: circleci/aws-s3@1.0.11
 jobs:
   build:
-    working_directory: /go/src/github.com/athagi/health-check-cli/
+    # working_directory: /go/src/github.com/athagi/health-check-cli/
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: circleci/golang:1.12.6 # the primary container, where your job's commands are run
         environment:
@@ -14,36 +12,4 @@ jobs:
       - run: ls -al dest/
       - store_artifacts:
           path: dest/
-      - aws-s3/copy:
-        from: dest/
-        to: 's3://health-check-cli'
-#   upload:
-#     working_directory: /go/src/github.com/athagi/health-check-cli/
-#     docker:
-#       - image: circleci/python
-#     steps:
-#       - run: pwd
-#       - run: ls -al
-#       - aws-s3/copy:
-#           from: dest/*
-#           to: 's3://health-check-cli'
-
-# workflows:
-#   version: 2.1
-#   build_and_upload :
-#     jobs:
-#       - build:
-#           filters:
-#             branches:
-#               only:
-#                 - master
-#                 - ci
-
-#       - upload:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only:
-#                 - master
-#                 - ci
+  upload:
