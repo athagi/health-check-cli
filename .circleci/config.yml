@@ -15,8 +15,8 @@ jobs:
       - store_artifaces:
         path: /go/src/github.com/athagi/health-check-cli/dest
       - aws-s3/copy:
-          from: dest/
-          to: 's3://health-check-cli'
+        from: dest/
+        to: 's3://health-check-cli'
 #   upload:
 #     working_directory: /go/src/github.com/athagi/health-check-cli/
 #     docker:
