@@ -12,6 +12,6 @@ jobs:
       - checkout # check out the code in the project directory
       - run: make build
       - run: ls -al dest/
-      - aws-s3/copy
-        from: dest/*
-        to: 's3://health-check-cli'
+      - aws-s3/copy:
+          from: dest/*
+          to: 's3://health-check-cli'
