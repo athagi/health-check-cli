@@ -15,7 +15,7 @@ jobs:
   upload:
     working_directory: /go/src/github.com/athagi/health-check-cli/
     docker:
-      - image: circleci/python2.7
+      - image: circleci/python
     steps:
       - run: pwd
       - run: ls -al
