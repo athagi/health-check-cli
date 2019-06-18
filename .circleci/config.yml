@@ -8,10 +8,5 @@ jobs:
           GO111MODULE: "on"
     steps:
       - checkout # check out the code in the project directory
-      - run: echo "hello $CIRCLE_PROJECT_USERNAME" # run the `echo` command
-      - run: ls -al
-      - run: pwd
       - run: make build
-      - run: make win-build
-      - run: make mac-build
       - run: ls -al dest/
