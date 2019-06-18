@@ -6,7 +6,7 @@ jobs:
       - image: circleci/golang:1.12.6 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - run: echo "hello $CIRCLE_PROJECT_USERNAME" # run the `echo` command
       - run: ls -al
       - run: pwd
       - run: make build
