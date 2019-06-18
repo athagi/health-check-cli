@@ -12,4 +12,14 @@ jobs:
       - run: ls -al dest/
       - store_artifacts:
           path: dest/
-  # upload:
+  upload:
+    requires:
+      - build
+    docker:
+      - image: circleci/python
+    steps:
+      - run: ls
+      - run: ls -al dest/
+
+
+
