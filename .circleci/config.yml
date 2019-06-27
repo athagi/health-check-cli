@@ -27,8 +27,8 @@ jobs:
       - run: ls .
       - run: ls /tmp/workspace
       - aws-s3/copy:
-          from: /tmp/workspace/dest/darwin/health-check-cli
-          to: 's3://health-check-cli/darwin'
+          from: /tmp/workspace/dest/*
+          to: 's3://health-check-cli/darwin/'
           arguments: '--dryrun'
 workflows:
   version: 2
