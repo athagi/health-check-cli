@@ -15,15 +15,15 @@ jobs:
       - store_artifacts:
           path: dest/
       - persist_to_workspace:
-        root: ./
-        paths: 
-          - dest/*
+          root: ./
+          paths: 
+            - dest/*
   upload:
     docker:
       - image: 'circleci/python:2.7'
     steps:
       - attach_workspace:
-        at: /tmp/workspace
+          at: /tmp/workspace
       - run: ls .
       - run: ls /tmp/workspace
       - aws-s3/copy:
