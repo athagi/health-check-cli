@@ -25,7 +25,9 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: ls .
-      - run: ls /tmp/workspace/dest/
+      - run: chmod +x /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
+      - run: chmod +x /tmp/workspace/dest/windows/${CIRCLE_PROJECT_REPONAME}
+      - run: chmod +x /tmp/workspace/dest/darwin/${CIRCLE_PROJECT_REPONAME}
       - aws-s3/copy:
           from: /tmp/workspace/dest/windows/*
           to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows/${CIRCLE_PROJECT_REPONAME}'
