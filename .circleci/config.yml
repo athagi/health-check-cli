@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.11
 jobs:
   build:
     # working_directory: /go/src/github.com/athagi/health-check-cli/
@@ -12,12 +14,22 @@ jobs:
       - run: ls -al dest/
       - store_artifacts:
           path: dest/
+      - persist_to_workspace:
+        root: ./
+        paths: 
+          - dest/*
   upload:
     docker:
-      - image: circleci/python
+      - image: 'circleci/python:2.7'
     steps:
-      - run: ls
-      - run: ls -al dest/
+      - attach_workspace:
+        at: /tmp/workspace
+      - run: ls .
+      - run: ls /tmp/workspace
+      - aws-s3/copy:
+          from: bucket/build_asset.txt
+          to: 's3://my-s3-bucket-name'
+          arguments: '--dryrun'
 workflows:
   version: 2
   build_and_test:
