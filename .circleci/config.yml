@@ -29,7 +29,7 @@ jobs:
       - aws-s3/copy:
           from: /tmp/workspace/dest/darwin/*
           to: 's3://health-check-cli/darwin/'
-          arguments: '--dryrun'
+          #arguments: '--dryrun'
 workflows:
   version: 2
   build_and_test:
