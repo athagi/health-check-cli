@@ -29,6 +29,7 @@ jobs:
       - aws-s3/copy:
           from: /tmp/workspace/dest/*
           to: 's3://health-check-cli'
+          aws-region: ap-northeast-1
           arguments: '--dryrun'
 workflows:
   version: 2
