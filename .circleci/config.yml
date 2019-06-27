@@ -27,8 +27,14 @@ jobs:
       - run: ls .
       - run: ls /tmp/workspace/dest/
       - aws-s3/copy:
-          from: /tmp/workspace/dest/*
-          to: 's3://health-check-cli/${CIRCLE_SHA1}/'
+          from: /tmp/workspace/dest/windows/*
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows'
+      - aws-s3/copy:
+          from: /tmp/workspace/dest/linux/*
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux'
+      - aws-s3/copy:
+          from: /tmp/workspace/dest/darwin/*
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/darwin'
           #arguments: '--dryrun'
 workflows:
   version: 2
