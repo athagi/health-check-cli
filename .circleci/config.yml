@@ -27,8 +27,8 @@ jobs:
       - run: ls .
       - run: ls /tmp/workspace
       - aws-s3/copy:
-          from: bucket/build_asset.txt
-          to: 's3://my-s3-bucket-name'
+          from: /tmp/workspace/dest/*
+          to: 's3://health-check-cli'
           arguments: '--dryrun'
 workflows:
   version: 2
