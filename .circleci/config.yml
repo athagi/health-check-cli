@@ -28,13 +28,13 @@ jobs:
       - run: ls /tmp/workspace/dest/
       - aws-s3/copy:
           from: /tmp/workspace/dest/windows/*
-          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows'
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows/${CIRCLE_PROJECT_REPONAME}'
       - aws-s3/copy:
           from: /tmp/workspace/dest/linux/*
-          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux'
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux/${CIRCLE_PROJECT_REPONAME}'
       - aws-s3/copy:
           from: /tmp/workspace/dest/darwin/*
-          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/darwin'
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/darwin/${CIRCLE_PROJECT_REPONAME}'
           #arguments: '--dryrun'
 workflows:
   version: 2
