@@ -26,16 +26,15 @@ jobs:
           at: /tmp/workspace
       - run: ls .
       - run: chmod +x /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
-      - run: chmod +x /tmp/workspace/dest/windows/${CIRCLE_PROJECT_REPONAME}
       - run: chmod +x /tmp/workspace/dest/darwin/${CIRCLE_PROJECT_REPONAME}
       - aws-s3/copy:
-          from: /tmp/workspace/dest/windows/*
-          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows/${CIRCLE_PROJECT_REPONAME}'
+          from: /tmp/workspace/dest/windows/${CIRCLE_PROJECT_REPONAME}.exe
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows/${CIRCLE_PROJECT_REPONAME}.exe'
       - aws-s3/copy:
-          from: /tmp/workspace/dest/linux/*
+          from: /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
           to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux/${CIRCLE_PROJECT_REPONAME}'
       - aws-s3/copy:
-          from: /tmp/workspace/dest/darwin/*
+          from: /tmp/workspace/dest/darwin/${CIRCLE_PROJECT_REPONAME}
           to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/darwin/${CIRCLE_PROJECT_REPONAME}'
           #arguments: '--dryrun'
 workflows:
