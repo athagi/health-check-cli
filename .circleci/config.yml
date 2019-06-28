@@ -5,13 +5,12 @@ jobs:
   build:
     # working_directory: /go/src/github.com/athagi/health-check-cli/
     docker: # use the docker executor type; machine and macos executors are also supported
-      - image: circleci/golang:1.12.6 # the primary container, where your job's commands are run
+      - image: circleci/golang:1.12.6
         environment:
           GO111MODULE: "on"
     steps:
-      - checkout # check out the code in the project directory
+      - checkout
       - run: make build
-      - run: ls -al dest/
       - store_artifacts:
           path: dest/
       - persist_to_workspace:
@@ -24,20 +23,15 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: ls .
-      - run: chmod +x /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
-      - run: chmod +x /tmp/workspace/dest/darwin/${CIRCLE_PROJECT_REPONAME}
       - aws-s3/copy:
           from: /tmp/workspace/dest/windows/${CIRCLE_PROJECT_REPONAME}.exe
           to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/windows/${CIRCLE_PROJECT_REPONAME}.exe'
-      - run: aws s3 cp "/tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}" "s3://health-check-cli/${CIRCLE_SHA1:0:8}/linux/${CIRCLE_PROJECT_REPONAME}"
-      # - aws-s3/copy:
-      #     from: /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
-      #     to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux/${CIRCLE_PROJECT_REPONAME}'
+      - aws-s3/copy:
+          from: /tmp/workspace/dest/linux/${CIRCLE_PROJECT_REPONAME}
+          to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/linux/${CIRCLE_PROJECT_REPONAME}'
       - aws-s3/copy:
           from: /tmp/workspace/dest/darwin/${CIRCLE_PROJECT_REPONAME}
           to: 's3://health-check-cli/${CIRCLE_SHA1:0:8}/darwin/${CIRCLE_PROJECT_REPONAME}'
-          #arguments: '--dryrun'
 workflows:
   version: 2
   build_and_test:
